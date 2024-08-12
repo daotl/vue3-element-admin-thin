@@ -1,13 +1,27 @@
+<script lang="ts" setup>
+import { LayoutEnum } from '~/enums/LayoutEnum'
+
+const _props = defineProps({
+  modelValue: String,
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+function updateValue(layout: string) {
+  emit('update:modelValue', layout)
+}
+</script>
+
 <template>
-  <div class="flex flex-wrap justify-around w-full h-12">
+  <div class="h-12 w-full flex flex-wrap justify-around">
     <el-tooltip content="左侧模式" placement="bottom">
       <div
-        class="layout-item left"
+        class="left layout-item"
         :class="{ 'is-active': modelValue === LayoutEnum.LEFT }"
         @click="updateValue(LayoutEnum.LEFT)"
       >
-        <div></div>
-        <div></div>
+        <div />
+        <div />
       </div>
     </el-tooltip>
 
@@ -17,8 +31,8 @@
         :class="{ 'is-active': modelValue === LayoutEnum.TOP }"
         @click="updateValue(LayoutEnum.TOP)"
       >
-        <div></div>
-        <div></div>
+        <div />
+        <div />
       </div>
     </el-tooltip>
 
@@ -28,26 +42,12 @@
         :class="{ 'is-active': modelValue === LayoutEnum.MIX }"
         @click="updateValue(LayoutEnum.MIX)"
       >
-        <div></div>
-        <div></div>
+        <div />
+        <div />
       </div>
     </el-tooltip>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { LayoutEnum } from "@/enums/LayoutEnum";
-
-const props = defineProps({
-  modelValue: String,
-});
-
-const emit = defineEmits(["update:modelValue"]);
-
-function updateValue(layout: string) {
-  emit("update:modelValue", layout);
-}
-</script>
 
 <style scoped>
 .layout-selector {

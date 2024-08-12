@@ -1,19 +1,19 @@
 /**
  * 布局大小枚举
  */
-export const enum SizeEnum {
+export const SizeEnum = {
   /**
    * 默认
    */
-  DEFAULT = "default",
+  DEFAULT: 'default',
 
   /**
    * 大型
    */
-  LARGE = "large",
+  LARGE: 'large',
 
   /**
    * 小型
    */
-  SMALL = "small",
+  SMALL: 'small',
 }

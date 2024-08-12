@@ -1,3 +1,84 @@
+<script setup lang="ts">
+import { LayoutEnum } from '~/enums/LayoutEnum'
+import { ThemeEnum } from '~/enums/ThemeEnum'
+import { useAppStore, usePermissionStore, useSettingsStore } from '~/store'
+
+const route = useRoute()
+const appStore = useAppStore()
+const settingsStore = useSettingsStore()
+const permissionStore = usePermissionStore()
+
+const settingsVisible = computed({
+  get() {
+    return settingsStore.settingsVisible
+  },
+  set() {
+    settingsStore.settingsVisible = false
+  },
+})
+
+/**
+ * 切换主题颜色
+ */
+function changeThemeColor(color: string) {
+  settingsStore.changeThemeColor(color)
+}
+
+/**
+ * 切换主题
+ */
+const isDark = ref<boolean>(settingsStore.theme === ThemeEnum.DARK)
+function changeTheme(val: unknown) {
+  isDark.value = val
+  settingsStore.changeTheme(isDark.value ? ThemeEnum.DARK : ThemeEnum.LIGHT)
+}
+
+/**
+ * 切换布局
+ */
+function changeLayout(layout: string) {
+  settingsStore.changeLayout(layout)
+  if (layout === LayoutEnum.MIX) {
+    route.name && againActiveTop(route.name as string)
+  }
+}
+
+function againActiveTop(newVal: string) {
+  const parent = findOutermostParent(permissionStore.routes, newVal)
+  if (appStore.activeTopMenu !== parent.path) {
+    appStore.activeTopMenu(parent.path)
+  }
+}
+
+function findOutermostParent(tree: unknown[], findName: string) {
+  const parentMap: unknown = {}
+
+  function buildParentMap(node: unknown, parent: unknown) {
+    parentMap[node.name] = parent
+
+    if (node.children) {
+      for (let i = 0; i < node.children.length; i++) {
+        buildParentMap(node.children[i], node)
+      }
+    }
+  }
+
+  for (let i = 0; i < tree.length; i++) {
+    buildParentMap(tree[i], null)
+  }
+
+  let currentNode = parentMap[findName]
+  while (currentNode) {
+    if (!parentMap[currentNode.name]) {
+      return currentNode
+    }
+    currentNode = parentMap[currentNode.name]
+  }
+
+  return null
+}
+</script>
+
 <template>
   <el-drawer
     v-model="settingsVisible"
@@ -53,87 +134,6 @@
     />
   </el-drawer>
 </template>
-
-<script setup lang="ts">
-import { useSettingsStore, usePermissionStore, useAppStore } from "@/store";
-import { LayoutEnum } from "@/enums/LayoutEnum";
-import { ThemeEnum } from "@/enums/ThemeEnum";
-
-const route = useRoute();
-const appStore = useAppStore();
-const settingsStore = useSettingsStore();
-const permissionStore = usePermissionStore();
-
-const settingsVisible = computed({
-  get() {
-    return settingsStore.settingsVisible;
-  },
-  set() {
-    settingsStore.settingsVisible = false;
-  },
-});
-
-/**
- * 切换主题颜色
- */
-function changeThemeColor(color: string) {
-  settingsStore.changeThemeColor(color);
-}
-
-/**
- * 切换主题
- */
-const isDark = ref<boolean>(settingsStore.theme === ThemeEnum.DARK);
-const changeTheme = (val: any) => {
-  isDark.value = val;
-  settingsStore.changeTheme(isDark.value ? ThemeEnum.DARK : ThemeEnum.LIGHT);
-};
-
-/**
- * 切换布局
- */
-function changeLayout(layout: string) {
-  settingsStore.changeLayout(layout);
-  if (layout === LayoutEnum.MIX) {
-    route.name && againActiveTop(route.name as string);
-  }
-}
-
-function againActiveTop(newVal: string) {
-  const parent = findOutermostParent(permissionStore.routes, newVal);
-  if (appStore.activeTopMenu !== parent.path) {
-    appStore.activeTopMenu(parent.path);
-  }
-}
-
-function findOutermostParent(tree: any[], findName: string) {
-  let parentMap: any = {};
-
-  function buildParentMap(node: any, parent: any) {
-    parentMap[node.name] = parent;
-
-    if (node.children) {
-      for (let i = 0; i < node.children.length; i++) {
-        buildParentMap(node.children[i], node);
-      }
-    }
-  }
-
-  for (let i = 0; i < tree.length; i++) {
-    buildParentMap(tree[i], null);
-  }
-
-  let currentNode = parentMap[findName];
-  while (currentNode) {
-    if (!parentMap[currentNode.name]) {
-      return currentNode;
-    }
-    currentNode = parentMap[currentNode.name];
-  }
-
-  return null;
-}
-</script>
 
 <style lang="scss" scoped>
 .settings-option {

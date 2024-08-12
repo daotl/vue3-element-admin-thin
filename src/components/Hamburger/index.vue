@@ -1,6 +1,22 @@
+<script setup lang="ts">
+defineProps({
+  isActive: {
+    required: true,
+    type: Boolean,
+    default: false,
+  },
+})
+
+const emit = defineEmits(['toggleClick'])
+
+function toggleClick() {
+  emit('toggleClick')
+}
+</script>
+
 <template>
   <div
-    class="px-[15px] flex items-center justify-center color-[var(--el-text-color-regular)]"
+    class="flex items-center justify-center px-[15px] color-[var(--el-text-color-regular)]"
     @click="toggleClick"
   >
     <svg-icon
@@ -10,21 +26,6 @@
     />
   </div>
 </template>
-<script setup lang="ts">
-defineProps({
-  isActive: {
-    required: true,
-    type: Boolean,
-    default: false,
-  },
-});
-
-const emit = defineEmits(["toggleClick"]);
-
-function toggleClick() {
-  emit("toggleClick");
-}
-</script>
 
 <style scoped lang="scss">
 .hamburger {

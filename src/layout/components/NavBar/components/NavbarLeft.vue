@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { useAppStore } from '~/store'
+
+const appStore = useAppStore()
+
+function toggleSideBar() {
+  appStore.toggleSidebar()
+}
+</script>
+
 <template>
   <div class="flex">
     <hamburger
@@ -7,13 +17,3 @@
     <breadcrumb />
   </div>
 </template>
-
-<script setup lang="ts">
-import { useAppStore } from "@/store";
-
-const appStore = useAppStore();
-
-function toggleSideBar() {
-  appStore.toggleSidebar();
-}
-</script>

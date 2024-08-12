@@ -1,14 +1,14 @@
 /**
  * 侧边栏状态枚举
  */
-export const enum SidebarStatusEnum {
+export const SidebarStatusEnum = {
   /**
    * 展开
    */
-  OPENED = "opened",
+  OPENED: 'opened',
 
   /**
    * 关闭
    */
-  CLOSED = "closed",
+  CLOSED: 'closed',
 }

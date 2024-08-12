@@ -1,5 +1,20 @@
+<script setup lang="ts">
+import { useSettingsStore, useTagsViewStore } from '~/store'
+import variables from '~/styles/variables.module.scss'
+
+const cachedViews = computed(() => useTagsViewStore().cachedViews) // 缓存页面集合
+const minHeight = computed(() => {
+  if (useSettingsStore().tagsView) {
+    return `calc(100vh - ${variables['navbar-height']} - ${variables['tags-view-height']})`
+  }
+  else {
+    return `calc(100vh - ${variables['navbar-height']})`
+  }
+})
+</script>
+
 <template>
-  <section class="app-main" :style="{ minHeight: minHeight }">
+  <section class="app-main" :style="{ minHeight }">
     <router-view>
       <template #default="{ Component, route }">
         <transition
@@ -14,20 +29,6 @@
     </router-view>
   </section>
 </template>
-
-<script setup lang="ts">
-import { useSettingsStore, useTagsViewStore } from "@/store";
-import variables from "@/styles/variables.module.scss";
-
-const cachedViews = computed(() => useTagsViewStore().cachedViews); // 缓存页面集合
-const minHeight = computed(() => {
-  if (useSettingsStore().tagsView) {
-    return `calc(100vh - ${variables["navbar-height"]} - ${variables["tags-view-height"]})`;
-  } else {
-    return `calc(100vh - ${variables["navbar-height"]})`;
-  }
-});
-</script>
 
 <style lang="scss" scoped>
 .app-main {

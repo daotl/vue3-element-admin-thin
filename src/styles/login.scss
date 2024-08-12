@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  background: url("@/assets/images/login-background-light.jpg") no-repeat center
+  background: url("~/assets/images/login-background-light.jpg") no-repeat center
     right;
 
   .top-bar {
@@ -76,6 +76,6 @@
 }
 
 html.dark .login-container {
-  background: url("@/assets/images/login-background-dark.jpg") no-repeat center
+  background: url("~/assets/images/login-background-dark.jpg") no-repeat center
     right;
 }

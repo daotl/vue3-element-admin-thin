@@ -5,7 +5,7 @@
  * @returns {boolean}
  */
 export function hasClass(ele: HTMLElement, cls: string) {
-  return !!ele.className.match(new RegExp("(\\s|^)" + cls + "(\\s|$)"));
+  return !!ele.className.match(new RegExp(`(\\s|^)${cls}(\\s|$)`))
 }
 
 /**
@@ -14,7 +14,9 @@ export function hasClass(ele: HTMLElement, cls: string) {
  * @param {string} cls
  */
 export function addClass(ele: HTMLElement, cls: string) {
-  if (!hasClass(ele, cls)) ele.className += " " + cls;
+  if (!hasClass(ele, cls)) {
+    ele.className += ` ${cls}`
+  }
 }
 
 /**
@@ -24,8 +26,8 @@ export function addClass(ele: HTMLElement, cls: string) {
  */
 export function removeClass(ele: HTMLElement, cls: string) {
   if (hasClass(ele, cls)) {
-    const reg = new RegExp("(\\s|^)" + cls + "(\\s|$)");
-    ele.className = ele.className.replace(reg, " ");
+    const reg = new RegExp(`(\\s|^)${cls}(\\s|$)`)
+    ele.className = ele.className.replace(reg, ' ')
   }
 }
 
@@ -33,9 +35,10 @@ export function removeClass(ele: HTMLElement, cls: string) {
  * 判断是否是外部链接
  *
  * @param {string} path
- * @returns {Boolean}
+ * @returns {boolean}
  */
 export function isExternal(path: string) {
-  const isExternal = /^(https?:|http?:|mailto:|tel:)/.test(path);
-  return isExternal;
+  // eslint-disable-next-line regexp/no-unused-capturing-group
+  const isExternal = /^(https?:|http?:|mailto:|tel:)/.test(path)
+  return isExternal
 }

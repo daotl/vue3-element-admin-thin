@@ -1,7 +1,51 @@
+<script setup lang="ts">
+import { DeviceEnum } from '~/enums/DeviceEnum'
+import defaultSettings from '~/settings'
+import {
+  useAppStore,
+  useSettingsStore,
+  useTagsViewStore,
+  useUserStore,
+} from '~/store'
+
+const appStore = useAppStore()
+const tagsViewStore = useTagsViewStore()
+const userStore = useUserStore()
+const settingStore = useSettingsStore()
+
+const route = useRoute()
+const router = useRouter()
+
+const isMobile = computed(() => appStore.device === DeviceEnum.MOBILE)
+
+const { isFullscreen, toggle } = useFullscreen()
+
+/**
+ * 注销
+ */
+function logout() {
+  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+    lockScroll: false,
+  }).then(() => {
+    userStore
+      .logout()
+      .then(() => {
+        tagsViewStore.delAllViews()
+      })
+      .then(() => {
+        router.push(`/login?redirect=${route.fullPath}`)
+      })
+  })
+}
+</script>
+
 <template>
   <div class="flex">
     <template v-if="!isMobile">
-      <!--全屏 -->
+      <!-- 全屏 -->
       <div class="setting-item" @click="toggle">
         <svg-icon
           :icon-class="isFullscreen ? 'fullscreen-exit' : 'fullscreen'"
@@ -23,11 +67,11 @@
 
     <!-- 用户头像 -->
     <el-dropdown class="setting-item" trigger="click">
-      <div class="flex-center h100% p10px">
+      <div class="h100% flex-center p10px">
         <img
-          :src="userStore.user.avatar + '?imageView2/1/w/80/h/80'"
-          class="rounded-full mr-10px w24px w24px"
-        />
+          :src="`${userStore.user.avatar}?imageView2/1/w/80/h/80`"
+          class="mr-10px w24px w24px rounded-full"
+        >
         <span>{{ userStore.user.username }}</span>
       </div>
       <template #dropdown>
@@ -56,49 +100,7 @@
     </template>
   </div>
 </template>
-<script setup lang="ts">
-import {
-  useAppStore,
-  useTagsViewStore,
-  useUserStore,
-  useSettingsStore,
-} from "@/store";
-import defaultSettings from "@/settings";
-import { DeviceEnum } from "@/enums/DeviceEnum";
 
-const appStore = useAppStore();
-const tagsViewStore = useTagsViewStore();
-const userStore = useUserStore();
-const settingStore = useSettingsStore();
-
-const route = useRoute();
-const router = useRouter();
-
-const isMobile = computed(() => appStore.device === DeviceEnum.MOBILE);
-
-const { isFullscreen, toggle } = useFullscreen();
-
-/**
- * 注销
- */
-function logout() {
-  ElMessageBox.confirm("确定注销并退出系统吗？", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning",
-    lockScroll: false,
-  }).then(() => {
-    userStore
-      .logout()
-      .then(() => {
-        tagsViewStore.delAllViews();
-      })
-      .then(() => {
-        router.push(`/login?redirect=${route.fullPath}`);
-      });
-  });
-}
-</script>
 <style lang="scss" scoped>
 .setting-item {
   display: inline-block;

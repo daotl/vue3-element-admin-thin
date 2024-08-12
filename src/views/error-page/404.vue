@@ -1,47 +1,48 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router'
 
 defineOptions({
-  name: "Page404",
-});
+  name: 'Page404',
+})
 
-const router = useRouter();
+const router = useRouter()
 
 function back() {
-  router.back();
+  router.back()
 }
 </script>
 
 <template>
   <div class="page-container">
     <div class="pic-404">
-      <img class="pic-404__parent" src="@/assets/images/404.png" alt="404" />
+      <img class="pic-404__parent" src="~/assets/images/404.png" alt="404">
       <img
-        class="pic-404__child left"
-        src="@/assets/images/404_cloud.png"
+        class="left pic-404__child"
+        src="~/assets/images/404_cloud.png"
         alt="404"
-      />
+      >
       <img
         class="pic-404__child mid"
-        src="@/assets/images/404_cloud.png"
+        src="~/assets/images/404_cloud.png"
         alt="404"
-      />
+      >
       <img
         class="pic-404__child right"
-        src="@/assets/images/404_cloud.png"
+        src="~/assets/images/404_cloud.png"
         alt="404"
-      />
+      >
     </div>
     <div class="bullshit">
-      <div class="bullshit__oops">OOPS!</div>
+      <div class="bullshit__oops">
+        OOPS!
+      </div>
       <div class="bullshit__info">
         All rights reserved
         <a
           style="color: #20a0ff"
           href="https://wallstreetcn.com"
           target="_blank"
-          >wallstreetcn</a
-        >
+        >wallstreetcn</a>
       </div>
       <div class="bullshit__headline">
         The webmaster said that you can not enter this page...

@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from '~/utils/request'
 
 class UserAPI {
   /**
@@ -7,32 +7,32 @@ class UserAPI {
    * @returns 登录用户昵称、头像信息，包括角色和权限
    */
   static getInfo() {
-    return request<any, UserInfo>({
-      url: "/api/v1/users/me",
-      method: "get",
-    });
+    return request<unknown, UserInfo>({
+      url: '/api/v1/users/me',
+      method: 'get',
+    })
   }
 }
 
-export default UserAPI;
+export default UserAPI
 
 /** 登录用户信息 */
 export interface UserInfo {
   /** 用户ID */
-  userId?: number;
+  userId?: number
 
   /** 用户名 */
-  username?: string;
+  username?: string
 
   /** 昵称 */
-  nickname?: string;
+  nickname?: string
 
   /** 头像URL */
-  avatar?: string;
+  avatar?: string
 
   /** 角色 */
-  roles: string[];
+  roles: string[]
 
   /** 权限 */
-  perms: string[];
+  perms: string[]
 }

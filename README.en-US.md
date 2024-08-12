@@ -139,7 +139,7 @@ The project supports both online API and local mock API. By default, it uses the
 - [Building a Backend Management System from Scratch with Vue3, Vite, TypeScript, and Element-Plus](https://blog.csdn.net/u013737132/article/details/130191394)
 
 - [ESLint+Prettier+Stylelint+EditorConfig for Standardized and Unified Frontend Code Style](https://blog.csdn.net/u013737132/article/details/130190788)
-- [Git Commit Conventions with Husky, Lint-staged, Commitlint, Commitizen, and cz-git](https://blog.csdn.net/u013737132/article/details/130191363)
+- [Git Commit Conventions with lefthook](https://www.npmjs.com/package/lefthook)
 
 ## Commit Conventions
 

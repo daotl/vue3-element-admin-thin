@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from '~/utils/request'
 
 class MenuAPI {
   /**
@@ -9,41 +9,41 @@ class MenuAPI {
    * @returns 路由列表
    */
   static getRoutes() {
-    return request<any, RouteVO[]>({
-      url: "/api/v1/menus/routes",
-      method: "get",
-    });
+    return request<unknown, RouteVO[]>({
+      url: '/api/v1/menus/routes',
+      method: 'get',
+    })
   }
 }
 
-export default MenuAPI;
+export default MenuAPI
 
 /** RouteVO，路由对象 */
 export interface RouteVO {
   /** 子路由列表 */
-  children: RouteVO[];
+  children: RouteVO[]
   /** 组件路径 */
-  component?: string;
+  component?: string
   /** 路由属性 */
-  meta?: Meta;
+  meta?: Meta
   /** 路由名称 */
-  name?: string;
+  name?: string
   /** 路由路径 */
-  path?: string;
+  path?: string
   /** 跳转链接 */
-  redirect?: string;
+  redirect?: string
 }
 
 /** Meta，路由属性 */
 export interface Meta {
   /** 【目录】只有一个子路由是否始终显示 */
-  alwaysShow?: boolean;
+  alwaysShow?: boolean
   /** 是否隐藏(true-是 false-否) */
-  hidden?: boolean;
+  hidden?: boolean
   /** ICON */
-  icon?: string;
+  icon?: string
   /** 【菜单】是否开启页面缓存 */
-  keepAlive?: boolean;
+  keepAlive?: boolean
   /** 路由title */
-  title?: string;
+  title?: string
 }

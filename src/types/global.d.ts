@@ -2,18 +2,18 @@ declare global {
   /**
    * 响应数据
    */
-  interface ResponseData<T = any> {
-    code: string;
-    data: T;
-    msg: string;
+  interface ResponseData<T = unknown> {
+    code: string
+    data: T
+    msg: string
   }
 
   /**
    * 分页查询参数
    */
   interface PageQuery {
-    pageNum: number;
-    pageSize: number;
+    pageNum: number
+    pageSize: number
   }
 
   /**
@@ -21,9 +21,9 @@ declare global {
    */
   interface PageResult<T> {
     /** 数据列表 */
-    list: T;
+    list: T
     /** 总数 */
-    total: number;
+    total: number
   }
 
   /**
@@ -31,21 +31,21 @@ declare global {
    */
   interface TagView {
     /** 页签名称 */
-    name: string;
+    name: string
     /** 页签标题 */
-    title: string;
+    title: string
     /** 页签路由路径 */
-    path: string;
+    path: string
     /** 页签路由完整路径 */
-    fullPath: string;
+    fullPath: string
     /** 页签图标 */
-    icon?: string;
+    icon?: string
     /** 是否固定页签 */
-    affix?: boolean;
+    affix?: boolean
     /** 是否开启缓存 */
-    keepAlive?: boolean;
+    keepAlive?: boolean
     /** 路由查询参数 */
-    query?: any;
+    query?: unknown
   }
 
   /**
@@ -53,31 +53,31 @@ declare global {
    */
   interface AppSettings {
     /** 系统标题 */
-    title: string;
+    title: string
     /** 系统版本 */
-    version: string;
+    version: string
     /** 是否显示设置 */
-    showSettings: boolean;
+    showSettings: boolean
     /** 是否固定头部 */
-    fixedHeader: boolean;
+    fixedHeader: boolean
     /** 是否显示多标签导航 */
-    tagsView: boolean;
+    tagsView: boolean
     /** 是否显示侧边栏Logo */
-    sidebarLogo: boolean;
+    sidebarLogo: boolean
     /** 导航栏布局(left|top|mix) */
-    layout: string;
+    layout: string
     /** 主题颜色 */
-    themeColor: string;
+    themeColor: string
     /** 主题模式(dark|light) */
-    theme: string;
+    theme: string
     /** 布局大小(default |large |small) */
-    size: string;
+    size: string
     /** 语言( zh-cn| en) */
-    language: string;
+    language: string
     /** 是否开启水印 */
-    watermarkEnabled: boolean;
+    watermarkEnabled: boolean
     /** 水印内容 */
-    watermarkContent: string;
+    watermarkContent: string
   }
 
   /**
@@ -85,11 +85,11 @@ declare global {
    */
   interface OptionType {
     /** 值 */
-    value: string | number;
+    value: string | number
     /** 文本 */
-    label: string;
+    label: string
     /** 子列表  */
-    children?: OptionType[];
+    children?: OptionType[]
   }
 }
-export {};
+export {}
