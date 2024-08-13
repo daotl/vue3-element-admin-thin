@@ -1,12 +1,8 @@
-import type {
-  NavigationGuardNext,
-  RouteLocationNormalized,
-  RouteRecordRaw,
-} from 'vue-router'
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 import { TOKEN_KEY } from '~/enums/CacheEnum'
 import router from '~/router'
-import { usePermissionStore, useUserStore } from '~/store'
+import { useUserStore } from '~/store'
 import NProgress from '~/utils/nprogress'
 
 export function setupPermission() {
@@ -36,7 +32,7 @@ export function setupPermission() {
           else {
             // 如果路由参数中有 title，覆盖路由元信息中的 title
             const title
-              = (to.params.title as string) || (to.query.title as string)
+              = (to.params['title'] as string) || (to.query['title'] as string)
             if (title) {
               to.meta.title = title
             }
@@ -44,13 +40,9 @@ export function setupPermission() {
           }
         }
         else {
-          const permissionStore = usePermissionStore()
+          // const permissionStore = usePermissionStore()
           try {
             await userStore.getUserInfo()
-            const dynamicRoutes = await permissionStore.generateRoutes()
-            dynamicRoutes.forEach((route: RouteRecordRaw) =>
-              router.addRoute(route),
-            )
             next({ ...to, replace: true })
           }
           catch (error) {

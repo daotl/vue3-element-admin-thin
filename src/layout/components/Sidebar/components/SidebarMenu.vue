@@ -32,18 +32,19 @@ const mode = computed(() => {
 /**
  * 解析路径
  *
- * @param routePath 路由路径 /user
+ * @param {string} routePath - 路由路径 /user
  */
 function resolvePath(routePath: string) {
   if (isExternal(routePath)) {
     return routePath
   }
+
   if (isExternal(props.basePath)) {
     return props.basePath
   }
 
   // 完整绝对路径 = 父级路径(/system) + 路由路径(/user)
-  const fullPath = path.resolve(props.basePath, routePath)
+  const fullPath = path.resolve(props.basePath, routePath.startsWith('/') ? routePath : `/${routePath}`)
   return fullPath
 }
 /**
@@ -82,7 +83,7 @@ watch(
   >
     <SidebarMenuItem
       v-for="route in menuList"
-      :key="route.path"
+      :key="route.name"
       :item="route"
       :base-path="resolvePath(route.path)"
     />

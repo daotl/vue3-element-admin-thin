@@ -2,37 +2,29 @@
 import path from 'path-browserify'
 import type { RouteRecordRaw } from 'vue-router'
 
-import { isExternal } from '~/utils/index'
+import { isExternal } from '~/utils'
 
 defineOptions({
   name: 'SidebarMenuItem',
   inheritAttrs: false,
 })
 
-const props = defineProps({
+const props = defineProps<Props>()
+
+interface Props {
   /**
    * 当前路由项对象
    */
-  item: {
-    type: Object,
-    required: true,
-  },
-
+  item: RouteRecordRaw
   /**
    * 父层级完整路由路径
    */
-  basePath: {
-    type: String,
-    required: true,
-  },
+  basePath: string
   /**
    * 是否为嵌套路由
    */
-  isNest: {
-    type: Boolean,
-    default: false,
-  },
-})
+  isNest?: boolean
+}
 
 const onlyOneChild = ref()
 
@@ -43,17 +35,14 @@ const onlyOneChild = ref()
  * @param parent 父级路由对象
  * @returns 布尔值，表示是否只有一个显示的子路由
  */
-function hasOneShowingChild(
-  children: RouteRecordRaw[] = [],
-  parent: RouteRecordRaw,
-) {
+function hasOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecordRaw) {
   // 筛选出需要显示的子路由
   const showingChildren = children.filter((route: RouteRecordRaw) => {
     if (route.meta?.hidden) {
       return false
     }
     else {
-      route.meta!.hidden = false
+      route.meta ? (route.meta.hidden = false) : (route.meta = { hidden: true })
       onlyOneChild.value = route
       return true
     }
