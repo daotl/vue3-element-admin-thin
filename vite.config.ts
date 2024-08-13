@@ -15,6 +15,7 @@ import mockDevServerPlugin from 'vite-plugin-mock-dev-server'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // https://devtools-next.vuejs.org/
 import VueDevTools from 'vite-plugin-vue-devtools'
+import type { PreRenderedAsset } from 'rollup'
 
 import {
   dependencies,
@@ -37,7 +38,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   return {
     resolve: {
       alias: {
-        '@': pathSrc,
+        '~': pathSrc,
       },
     },
     css: {
@@ -47,7 +48,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         scss: {
           javascriptEnabled: true,
           additionalData: `
-            @use "@/styles/variables.scss" as *;
+            @use "~/styles/variables.scss" as *;
           `,
         },
       },
@@ -129,7 +130,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         symbolId: 'icon-[dir]-[name]',
       }),
       VueDevTools({
-        openInEditorHost: `http://localhost:${env.VITE_APP_PORT}`,
+        // openInEditorHost: `http://localhost:${env['VITE_APP_PORT']}`,
       }),
     ],
     // 预加载项目必需的组件
@@ -223,22 +224,23 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           // 用于命名代码拆分时创建的共享块的输出命名
           chunkFileNames: 'js/[name].[hash].js',
           // 用于输出静态资源的命名，[ext]表示文件扩展名
-          assetFileNames: (assetInfo: { name: string }) => {
-            const info = assetInfo.name.split('.')
+          assetFileNames: (assetInfo: PreRenderedAsset) => {
+            const assetInfoName = assetInfo.name ?? ''
+            const info = assetInfoName.split('.')
             let extType = info[info.length - 1]
             // console.log('文件信息', assetInfo.name)
             if (
               // eslint-disable-next-line regexp/no-unused-capturing-group
-              /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name)
+              /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfoName)
             ) {
               extType = 'media'
             }
             // eslint-disable-next-line regexp/no-unused-capturing-group
-            else if (/\.(png|jpe?g|gif|svg)(\?.*)?$/.test(assetInfo.name)) {
+            else if (/\.(png|jpe?g|gif|svg)(\?.*)?$/.test(assetInfoName)) {
               extType = 'img'
             }
             // eslint-disable-next-line regexp/no-unused-capturing-group
-            else if (/\.(woff2?|eot|ttf|otf)(\?.*)?$/i.test(assetInfo.name)) {
+            else if (/\.(woff2?|eot|ttf|otf)(\?.*)?$/i.test(assetInfoName)) {
               extType = 'fonts'
             }
             return `${extType}/[name].[hash].[ext]`
