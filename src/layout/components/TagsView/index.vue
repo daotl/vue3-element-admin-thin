@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { resolve } from 'path-browserify'
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
 import { useRoute, useRouter } from 'vue-router'
 
 import {
@@ -140,7 +140,7 @@ function isFirstView() {
   try {
     return (
       selectedTag.value.path === '/dashboard'
-      || selectedTag.value.fullPath === tagsViewStore.visitedViews[1].fullPath
+      || selectedTag.value.fullPath === tagsViewStore.visitedViews[1]?.fullPath
     )
   }
   catch (err) {
@@ -152,7 +152,7 @@ function isLastView() {
   try {
     return (
       selectedTag.value.fullPath
-      === tagsViewStore.visitedViews[tagsViewStore.visitedViews.length - 1].fullPath
+      === tagsViewStore.visitedViews[tagsViewStore.visitedViews.length - 1]?.fullPath
     )
   }
   catch (err) {
@@ -169,7 +169,7 @@ function refreshSelectedTag(view: TagView) {
 }
 
 function closeSelectedTag(view: TagView) {
-  tagsViewStore.delView(view).then((res: unknown) => {
+  tagsViewStore.delView(view).then((res) => {
     if (tagsViewStore.isActive(view)) {
       tagsViewStore.toLastView(res.visitedViews, view)
     }
@@ -177,29 +177,29 @@ function closeSelectedTag(view: TagView) {
 }
 
 function closeLeftTags() {
-  tagsViewStore.delLeftViews(selectedTag.value).then((res: unknown) => {
-    if (!res.visitedViews.find((item: unknown) => item.path === route.path)) {
+  tagsViewStore.delLeftViews(selectedTag.value).then((res) => {
+    if (!res.visitedViews.find(item => item.path === route.path)) {
       tagsViewStore.toLastView(res.visitedViews)
     }
   })
 }
 function closeRightTags() {
-  tagsViewStore.delRightViews(selectedTag.value).then((res: unknown) => {
-    if (!res.visitedViews.find((item: unknown) => item.path === route.path)) {
+  tagsViewStore.delRightViews(selectedTag.value).then((res) => {
+    if (!res.visitedViews.find(item => item.path === route.path)) {
       tagsViewStore.toLastView(res.visitedViews)
     }
   })
 }
 
 function closeOtherTags() {
-  router.push(selectedTag.value)
+  router.push(selectedTag.value as RouteLocationRaw)
   tagsViewStore.delOtherViews(selectedTag.value).then(() => {
     moveToCurrentTag()
   })
 }
 
 function closeAllTags(view: TagView) {
-  tagsViewStore.delAllViews().then((res: unknown) => {
+  tagsViewStore.delAllViews().then((res) => {
     tagsViewStore.toLastView(res.visitedViews, view)
   })
 }
@@ -248,29 +248,29 @@ function handleScroll() {
   closeContentMenu()
 }
 
-function findOutermostParent(tree: unknown[], findName: string) {
-  const parentMap: unknown = {}
+function findOutermostParent(tree: ReadonlyArray<RouteRecordRaw>, findName: string) {
+  const parentMap: Record<string, RouteRecordRaw | null> = {}
 
-  function buildParentMap(node: unknown, parent: unknown) {
-    parentMap[node.name] = parent
+  function buildParentMap(node: RouteRecordRaw, parent: RouteRecordRaw | null) {
+    parentMap[node.name as string] = parent
 
     if (node.children) {
-      for (let i = 0; i < node.children.length; i++) {
-        buildParentMap(node.children[i], node)
+      for (const childItem of node.children) {
+        buildParentMap(childItem, node)
       }
     }
   }
 
-  for (let i = 0; i < tree.length; i++) {
-    buildParentMap(tree[i], null)
+  for (const treeItem of tree) {
+    buildParentMap(treeItem, null)
   }
 
   let currentNode = parentMap[findName]
   while (currentNode) {
-    if (!parentMap[currentNode.name]) {
+    if (!parentMap[currentNode.name as string]) {
       return currentNode
     }
-    currentNode = parentMap[currentNode.name]
+    currentNode = parentMap[currentNode.name as string]
   }
 
   return null
@@ -281,7 +281,7 @@ function againActiveTop(newVal: string) {
     return
   }
   const parent = findOutermostParent(permissionStore.routes, newVal)
-  if (appStore.activeTopMenu !== parent.path) {
+  if (parent?.path && appStore.activeTopMenuPath !== parent.path) {
     appStore.activeTopMenu(parent.path)
   }
 }

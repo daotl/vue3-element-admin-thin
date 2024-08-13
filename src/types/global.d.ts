@@ -1,3 +1,5 @@
+import type { LocationQueryRaw } from 'vue-router'
+
 declare global {
   /**
    * 响应数据
@@ -45,7 +47,7 @@ declare global {
     /** 是否开启缓存 */
     keepAlive?: boolean
     /** 路由查询参数 */
-    query?: unknown
+    query?: LocationQueryRaw
   }
 
   /**

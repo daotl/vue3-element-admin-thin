@@ -3,6 +3,7 @@ import process from 'node:process'
 
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import type { PreRenderedAsset } from 'rollup'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -15,7 +16,6 @@ import mockDevServerPlugin from 'vite-plugin-mock-dev-server'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // https://devtools-next.vuejs.org/
 import VueDevTools from 'vite-plugin-vue-devtools'
-import type { PreRenderedAsset } from 'rollup'
 
 import {
   dependencies,
