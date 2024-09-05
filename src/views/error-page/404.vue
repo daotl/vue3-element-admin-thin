@@ -15,34 +15,26 @@ function back() {
 <template>
   <div class="page-container">
     <div class="pic-404">
-      <img class="pic-404__parent" src="~/assets/images/404.png" alt="404">
+      <img class="pic-404__parent" src="../../assets/images/404.png" alt="404">
       <img
         class="left pic-404__child"
-        src="~/assets/images/404_cloud.png"
+        src="../../assets/images/404_cloud.png"
         alt="404"
       >
       <img
         class="pic-404__child mid"
-        src="~/assets/images/404_cloud.png"
+        src="../../assets/images/404_cloud.png"
         alt="404"
       >
       <img
         class="pic-404__child right"
-        src="~/assets/images/404_cloud.png"
+        src="../../assets/images/404_cloud.png"
         alt="404"
       >
     </div>
     <div class="bullshit">
       <div class="bullshit__oops">
         OOPS!
-      </div>
-      <div class="bullshit__info">
-        All rights reserved
-        <a
-          style="color: #20a0ff"
-          href="https://wallstreetcn.com"
-          target="_blank"
-        >wallstreetcn</a>
       </div>
       <div class="bullshit__headline">
         The webmaster said that you can not enter this page...
