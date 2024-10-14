@@ -9,7 +9,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
    */
   function addVisitedView(view: TagView) {
     // 如果已经存在于已访问的视图列表中，则不再添加
-    if (visitedViews.value.some(v => v.path === view.path)) {
+    if (visitedViews.value.some(v => v.name === view.name)) {
       return
     }
     // 如果视图是固定的（affix），则在已访问的视图列表的开头添加
@@ -45,7 +45,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     return new Promise((resolve) => {
       for (const [i, v] of visitedViews.value.entries()) {
         // 找到与指定视图路径匹配的视图，在已访问视图列表中删除该视图
-        if (v.path === view.path) {
+        if (v.name === view.name) {
           visitedViews.value.splice(i, 1)
           break
         }
@@ -58,7 +58,9 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     const viewName = view.name
     return new Promise((resolve) => {
       const index = cachedViews.value.indexOf(viewName)
-      index > -1 && cachedViews.value.splice(index, 1)
+      if (index > -1) {
+        cachedViews.value.splice(index, 1)
+      }
       resolve([...cachedViews.value])
     })
   }
@@ -66,7 +68,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   function delOtherVisitedViews(view: TagView) {
     return new Promise((resolve) => {
       visitedViews.value = visitedViews.value.filter((v) => {
-        return v?.affix || v.path === view.path
+        return v?.affix || v.name === view.name
       })
       resolve([...visitedViews.value])
     })
@@ -89,7 +91,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
 
   function updateVisitedView(view: TagView) {
     for (let v of visitedViews.value) {
-      if (v.path === view.path) {
+      if (v.name === view.name) {
         v = Object.assign(v, view)
         break
       }
@@ -134,7 +136,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   function delLeftViews(view: TagView) {
     return new Promise<{ visitedViews: TagView[] }>((resolve) => {
       const currIndex = visitedViews.value.findIndex(
-        v => v.path === view.path,
+        v => v.name === view.name,
       )
       if (currIndex === -1) {
         return
@@ -159,7 +161,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   function delRightViews(view: TagView) {
     return new Promise<{ visitedViews: TagView[] }>((resolve) => {
       const currIndex = visitedViews.value.findIndex(
-        v => v.path === view.path,
+        v => v.name === view.name,
       )
       if (currIndex === -1) {
         return
@@ -226,7 +228,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   }
 
   function isActive(tag: TagView) {
-    return tag.path === route.path
+    return tag.name === route.name
   }
 
   function toLastView(visitedViews: TagView[], view?: TagView) {

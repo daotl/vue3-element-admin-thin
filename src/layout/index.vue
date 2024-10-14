@@ -15,11 +15,11 @@ const isOpenSidebar = computed(() => appStore.sidebar.opened)
 const fixedHeader = computed(() => settingsStore.fixedHeader) // 是否固定header
 const showTagsView = computed(() => settingsStore.tagsView) // 是否显示tagsView
 const layout = computed(() => settingsStore.layout) // 布局模式 left top mix
-const activeTopMenuPath = computed(() => appStore.activeTopMenuPath) // 顶部菜单激活path
+const activeTopMenuName = computed(() => appStore.activeTopMenuName) // 顶部菜单激活path
 const mixLeftMenus = computed(() => permissionStore.mixLeftMenus) // 混合布局左侧菜单
 
 watch(
-  () => activeTopMenuPath.value,
+  () => activeTopMenuName.value,
   (newVal) => {
     permissionStore.setMixLeftMenus(newVal)
   },
@@ -79,7 +79,7 @@ watch(route, () => {
     <!-- 混合布局 -->
     <div v-if="layout === LayoutEnum.MIX" class="mix-container">
       <div class="mix-container__left">
-        <SidebarMenu :menu-list="mixLeftMenus" :base-path="activeTopMenuPath" />
+        <SidebarMenu :menu-list="mixLeftMenus" :base-path="activeTopMenuName" />
         <div class="sidebar-toggle">
           <hamburger
             :is-active="appStore.sidebar.opened"

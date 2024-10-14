@@ -22,7 +22,7 @@ export const useAppStore = defineStore('app', () => {
   })
 
   // 顶部菜单激活路径
-  const activeTopMenuPath = useStorage('activeTopMenuPath', '')
+  const activeTopMenuName = useStorage('activeTopMenuName', '')
 
   /**
    * 根据语言标识读取对应的语言包
@@ -81,7 +81,7 @@ export const useAppStore = defineStore('app', () => {
    * 混合模式顶部切换
    */
   function activeTopMenu(val: string) {
-    activeTopMenuPath.value = val
+    activeTopMenuName.value = val
   }
   return {
     device,
@@ -96,7 +96,7 @@ export const useAppStore = defineStore('app', () => {
     toggleSidebar,
     closeSideBar,
     openSideBar,
-    activeTopMenuPath,
+    activeTopMenuName,
   }
 })
 

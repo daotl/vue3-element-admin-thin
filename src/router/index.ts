@@ -8,6 +8,7 @@ export const Layout = () => import('~/layout/index.vue')
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/redirect',
+    name: 'Redirect',
     component: Layout,
     meta: { hidden: true },
     children: [
@@ -20,6 +21,7 @@ export const constantRoutes: RouteRecordRaw[] = [
 
   {
     path: '/login',
+    name: 'Login',
     component: () => import('~/views/login/index.vue'),
     meta: { hidden: true },
   },
@@ -44,12 +46,52 @@ export const constantRoutes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'dashboard1',
+        component: () => import('~/views/dashboard/index.vue'),
+        // 用于 keep-alive 功能，需要与 SFC 中自动推导或显式声明的组件名称一致
+        // 参考文档: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
+        name: 'Dashboard1',
+        meta: {
+          title: 'dashboard1',
+          icon: 'homepage',
+          keepAlive: true,
+        },
+        children: [
+          {
+            path: 'dashboard2',
+            component: () => import('~/views/dashboard/index.vue'),
+            // 用于 keep-alive 功能，需要与 SFC 中自动推导或显式声明的组件名称一致
+            // 参考文档: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
+            name: 'Dashboard2',
+            meta: {
+              title: 'dashboard2',
+              icon: 'homepage',
+              keepAlive: true,
+            },
+          },
+          {
+            path: 'dashboard3',
+            component: () => import('~/views/dashboard/index.vue'),
+            // 用于 keep-alive 功能，需要与 SFC 中自动推导或显式声明的组件名称一致
+            // 参考文档: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
+            name: 'Dashboard3',
+            meta: {
+              title: 'dashboard3',
+              icon: 'homepage',
+              keepAlive: true,
+            },
+          },
+        ],
+      },
+      {
         path: '401',
+        name: '401',
         component: () => import('~/views/error-page/401.vue'),
         meta: { hidden: true },
       },
       {
         path: '404',
+        name: '404',
         component: () => import('~/views/error-page/404.vue'),
         meta: { hidden: true },
       },

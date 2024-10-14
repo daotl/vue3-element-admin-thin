@@ -23,9 +23,9 @@ const mixTopMenus = ref<RouteRecordRaw[]>([])
 /**
  * 菜单选择事件
  */
-function handleMenuSelect(routePath: string) {
-  appStore.activeTopMenu(routePath)
-  permissionStore.setMixLeftMenus(routePath)
+function handleMenuSelect(routeName: string) {
+  appStore.activeTopMenu(routeName)
+  permissionStore.setMixLeftMenus(routeName)
   // 获取左侧菜单集合，默认跳转到第一个菜单
   const mixLeftMenus = permissionStore.mixLeftMenus
   goToFirstMenu(mixLeftMenus)
@@ -69,7 +69,7 @@ onMounted(() => {
       :active-text-color="variables['menu-active-text']"
       @select="handleMenuSelect"
     >
-      <el-menu-item v-for="route in mixTopMenus" :key="route.path" :index="route.path">
+      <el-menu-item v-for="route in mixTopMenus" :key="route.name" :index="route.name">
         <template #title>
           <svg-icon v-if="route.meta && route.meta.icon" :icon-class="route.meta.icon" />
           <span v-if="route.path === '/'">首页</span>

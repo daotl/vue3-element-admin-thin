@@ -11,7 +11,9 @@ export const hasPerm: Directive = {
     const { value: requiredPerms } = binding
     if (requiredPerms) {
       if (!hasAuth(requiredPerms)) {
-        el.parentNode && el.parentNode.removeChild(el)
+        if (el.parentNode) {
+          el.parentNode.removeChild(el)
+        }
       }
     }
     else {
@@ -31,7 +33,9 @@ export const hasRole: Directive = {
     const { value: requiredRoles } = binding
     if (requiredRoles) {
       if (!hasAuth(requiredRoles, 'role')) {
-        el.parentNode && el.parentNode.removeChild(el)
+        if (el.parentNode) {
+          el.parentNode.removeChild(el)
+        }
       }
     }
     else {

@@ -27,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
           resolve()
         })
         .catch((error) => {
-          reject(error)
+          reject(error as Error)
         })
     })
   }
@@ -38,20 +38,18 @@ export const useUserStore = defineStore('user', () => {
       UserAPI.getInfo()
         .then((data) => {
           if (!data) {
-            // eslint-disable-next-line prefer-promise-reject-errors
-            reject('Verification failed, please Login again.')
+            reject(new Error('Verification failed, please Login again.'))
             return
           }
           if (!data.roles || data.roles.length <= 0) {
-            // eslint-disable-next-line prefer-promise-reject-errors
-            reject('getUserInfo: roles must be a non-null array!')
+            reject(new Error('getUserInfo: roles must be a non-null array!'))
             return
           }
           Object.assign(user.value, { ...data })
           resolve(data)
         })
         .catch((error) => {
-          reject(error)
+          reject(error as Error)
         })
     })
   }
@@ -66,7 +64,7 @@ export const useUserStore = defineStore('user', () => {
           resolve()
         })
         .catch((error) => {
-          reject(error)
+          reject(error as Error)
         })
     })
   }

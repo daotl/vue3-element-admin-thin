@@ -76,8 +76,7 @@ function resolvePath(routePath: string) {
   }
 
   // 完整路径(/system/user) = 父级路径(/system) + 路由路径(user)
-  const fullPath = path.resolve(props.basePath, routePath)
-  return fullPath
+  return path.resolve(props.basePath, routePath)
 }
 </script>
 
@@ -95,12 +94,13 @@ function resolvePath(routePath: string) {
       <AppLink
         v-if="onlyOneChild.meta"
         :to="{
+          name: onlyOneChild.name,
           path: resolvePath(onlyOneChild.path),
           query: onlyOneChild.meta.params,
         }"
       >
         <el-menu-item
-          :index="resolvePath(onlyOneChild.path)"
+          :index="onlyOneChild.name"
           :class="{ 'submenu-title-noDropdown': !isNest }"
         >
           <SidebarMenuItemTitle
@@ -112,7 +112,7 @@ function resolvePath(routePath: string) {
     </template>
 
     <!-- 显示具有多个子路由的父菜单项 -->
-    <el-sub-menu v-else :index="resolvePath(item.path)" teleported>
+    <el-sub-menu v-else :index="item.name" teleported>
       <template #title>
         <SidebarMenuItemTitle
           v-if="item.meta"
@@ -123,7 +123,7 @@ function resolvePath(routePath: string) {
 
       <SidebarMenuItem
         v-for="child in item.children"
-        :key="child.path"
+        :key="child.name"
         :is-nest="true"
         :item="child"
         :base-path="resolvePath(child.path)"

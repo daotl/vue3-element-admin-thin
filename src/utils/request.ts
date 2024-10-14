@@ -29,8 +29,8 @@ service.interceptors.request.use(
     }
     return config
   },
-  (error: unknown) => {
-    return Promise.reject(error)
+  (error) => {
+    return Promise.reject(error as Error)
   },
 )
 
@@ -78,7 +78,7 @@ service.interceptors.response.use(
         ElMessage.error(msg || '系统出错')
       }
     }
-    return Promise.reject(error.message)
+    return Promise.reject(error)
   },
 )
 

@@ -70,7 +70,7 @@ watch(
 <template>
   <el-menu
     ref="menuRef"
-    :default-active="currentRoute.path"
+    :default-active="currentRoute.name"
     :collapse="!appStore.sidebar.opened"
     :background-color="variables['menu-background']"
     :text-color="variables['menu-text']"

@@ -26,11 +26,11 @@ export const usePermissionStore = defineStore<'permission', PermissionState>(
     /**
      * 混合模式菜单下根据顶部菜单路径设置左侧菜单
      *
-     * @param topMenuPath - 顶部菜单路径
+     * @param topMenuName - 顶部菜单路径
      */
-    const setMixLeftMenus = (topMenuPath: string): void => {
+    const setMixLeftMenus = (topMenuName: string): void => {
       const matchedItem = routes.value.find(
-        item => item.path === topMenuPath,
+        item => item.name === topMenuName,
       )
       if (matchedItem && matchedItem.children) {
         mixLeftMenus.value = matchedItem.children

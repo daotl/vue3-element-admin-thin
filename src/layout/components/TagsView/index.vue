@@ -281,8 +281,8 @@ function againActiveTop(newVal: string) {
     return
   }
   const parent = findOutermostParent(permissionStore.routes, newVal)
-  if (parent?.path && appStore.activeTopMenuPath !== parent.path) {
-    appStore.activeTopMenu(parent.path)
+  if (parent?.name && appStore.activeTopMenuName !== parent.name) {
+    appStore.activeTopMenu(parent.name)
   }
 }
 // 如果是混合模式，更改selectedTag，需要对应高亮的activeTop
@@ -313,7 +313,7 @@ onMounted(() => {
         v-for="tag in visitedViews"
         :key="tag.fullPath"
         :class="`tags-item ${tagsViewStore.isActive(tag) ? 'active' : ''}`"
-        :to="{ path: tag.path, query: tag.query }"
+        :to="{ name: tag.name, query: tag.query }"
         @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
         @contextmenu.prevent="openContentMenu(tag, $event)"
       >
