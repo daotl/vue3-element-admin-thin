@@ -9,6 +9,7 @@ import { translateRouteTitle } from '~/utils/i18n'
 const appStore = useAppStore()
 const permissionStore = usePermissionStore()
 const router = useRouter()
+const route = useRoute()
 
 // 避免 activeTopMenuPath 缓存被清理，从当前路由路径获取顶部菜单路径，eg. /system/user → /system
 const activeTopMenuPath = useRoute().path.match(/^\/[^/]+/)?.[0] || '/'
@@ -20,11 +21,45 @@ const activePath = computed(() => appStore.activeTopMenuPath)
 // 混合模式顶部菜单集合
 const mixTopMenus = ref<RouteRecordRaw[]>([])
 
+// 获取最顶级菜单名称
+function getTopParentName(name: string, list: RouteRecordRaw[], parentName: RouteRecordNameGeneric | undefined) {
+  for (const menuRoute of list) {
+    if (menuRoute.name === name) {
+      return parentName ?? name
+    }
+
+    if (!menuRoute.children?.length) {
+      continue
+    }
+
+    const res = getTopParentName(name, menuRoute.children, menuRoute.name)
+
+    if (res) {
+      return parentName ?? res
+    }
+  }
+
+  return undefined
+}
+
+onMounted(() => {
+  const res = getTopParentName(route.name as string, permissionStore.menuRoutes, undefined)
+  handleMenuSelect(res)
+})
+
 /**
  * 菜单选择事件
  */
 function handleMenuSelect(routeName: string) {
   appStore.activeTopMenu(routeName)
+
+  const menu = permissionStore.getMenuByName(routeName)
+  // 没有子路由时直接跳转路径
+  if (!menu?.children?.length) {
+    router.push({ name: routeName })
+    return
+  }
+
   permissionStore.setMixLeftMenus(routeName)
   // 获取左侧菜单集合，默认跳转到第一个菜单
   const mixLeftMenus = permissionStore.mixLeftMenus

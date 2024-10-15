@@ -18,17 +18,6 @@ const layout = computed(() => settingsStore.layout) // 布局模式 left top mix
 const activeTopMenuName = computed(() => appStore.activeTopMenuName) // 顶部菜单激活path
 const mixLeftMenus = computed(() => permissionStore.mixLeftMenus) // 混合布局左侧菜单
 
-watch(
-  () => activeTopMenuName.value,
-  (newVal) => {
-    permissionStore.setMixLeftMenus(newVal)
-  },
-  {
-    deep: true,
-    immediate: true,
-  },
-)
-
 const classObj = computed(() => ({
   hideSidebar: !appStore.sidebar.opened,
   openSidebar: appStore.sidebar.opened,

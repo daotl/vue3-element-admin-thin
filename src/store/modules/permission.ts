@@ -23,24 +23,31 @@ export const usePermissionStore = defineStore<'permission', PermissionState>(
      */
     const mixLeftMenus = ref<RouteRecordRaw[]>([])
 
+    const getMenuByName = (topMenuName: string) => {
+      return routes.value.find(
+        item => item.path === topMenuName,
+      )
+    }
+
     /**
      * 混合模式菜单下根据顶部菜单路径设置左侧菜单
      *
      * @param topMenuName - 顶部菜单路径
      */
     const setMixLeftMenus = (topMenuName: string): void => {
-      const matchedItem = routes.value.find(
-        item => item.name === topMenuName,
-      )
-      if (matchedItem && matchedItem.children) {
-        mixLeftMenus.value = matchedItem.children
+      const matchedItem = getMenuByName(topMenuName)
+      if (matchedItem && matchedItem.children?.length) {
+        this.mixLeftMenus = matchedItem.children
+        return
       }
+      this.mixLeftMenus = []
     }
 
     return {
       routes,
       mixLeftMenus,
       setMixLeftMenus,
+      getMenuByName,
     }
   },
 )
