@@ -50,5 +50,11 @@ declare module 'vue-router' {
      * @default false
      */
     breadcrumb?: boolean
+
+    /**
+     * 菜单栏高亮显示的路由(name)
+     * @default 当前路由的name
+     */
+    sidebarActiveMenu?: string
   }
 }

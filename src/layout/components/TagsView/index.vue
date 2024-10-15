@@ -313,7 +313,7 @@ onMounted(() => {
         v-for="tag in visitedViews"
         :key="tag.fullPath"
         :class="`tags-item ${tagsViewStore.isActive(tag) ? 'active' : ''}`"
-        :to="{ name: tag.name, query: tag.query }"
+        :to="{ name: tag.name, query: tag.query, params: tag.params }"
         @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
         @contextmenu.prevent="openContentMenu(tag, $event)"
       >
